@@ -1,0 +1,19 @@
+{
+  "name": "online_appointment_system",
+  "version": "1.0.0",
+  "description": "An appointment booking system that allows patients to make appointments online",
+  "main": "server.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Ferronique-May/BookMe.git"
+  },
+  "author": "Ferronique, Andries, Wasseem, Mdu, Tiyiselani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ferronique-May/BookMe/issues"
+  },
+  "homepage": "https://github.com/Ferronique-May/BookMe#readme"
+}
