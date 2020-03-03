@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOOK_ME</title>
+</head>
+<body>
+    <!-- Doctors Page for Viewing appointment After Loging in -->
+    <header>
+        <h1>BOOK ME</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="Logout.html">Logout</a></li>
+              </ul>
+        </nav>
+    </header>
+    <section>
+        <h3>Your Appointments</h3>
+        <form>
+            <label for="PatientName">Patient Name</label>
+                <input id="PatientName" type="text" value="PatientName"><br>                                
+            <label for="ViewBooking">View Your Appointment</label>
+                <input id="ViewBooking" type="date" required><br>
+                
+            <label for="PatientsDescription">Patients Description</label><br>
+            <textarea id="PatientsDescription" type="text" placeholder="Short Description of You illness"></textarea><br>
+                <button type="submit">View</button>
+        </form>
+</section>
+</body>
+</html>
