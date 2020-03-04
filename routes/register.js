@@ -12,7 +12,7 @@ const dbConfig = {
   }
 
 router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname , '../public/register.html'));
+    res.sendFile(path.join(__dirname , '../Client/Register.html'));
     console.log(__dirname);
     console.log("Test get....")
 });
