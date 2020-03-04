@@ -13,36 +13,49 @@ const dbConfig = {
 
 router.get('/', function(req, res) {
     res.sendFile(path.join(__dirname , '../Client/Login.html'));
-    console.log(__dirname);
 });
 
 router.post('/' ,function(request, response){
     const Email = request.body.Email;
     const Password = request.body.Password;
+    const Role = request.body.optradio;
    
-    if (Email && Password){
+    if (Email && Password && Role){
         sql.connect(dbConfig, function(err){
         if(err){
             console.log("Error while connecting database :- " + err);
             response.send(err);
             sql.close();
         }
-        else {  
-            console.log("connected");                     
+        else {                       
             const request = new sql.Request();   
             request.input('email', sql.VarChar, Email);
-            request.input('password', sql.VarChar, Password);       
+            request.input('password', sql.VarChar, Password);
+            if (Role == 0){       
             request.query("SELECT * FROM Patients WHERE Email = @email AND PasswordHash = @password",function(error, results){
                 if(results.recordsets < 1){
                     console.log("failed");
                     response.send("Wrong username or password");
                 }
                 else{
-                    console.log("found");
-                    response.send("successfuly logged in");
+                    console.log("found patient");
+                    response.send("successfuly logged patient in");
                 }
                 sql.close();    
-            });            
+            });
+        }else if(Role == 1){
+            request.query("SELECT * FROM Doctors WHERE Email = @email AND PasswordHash = @password",function(error, results){
+                if(results.recordsets < 1){
+                    console.log("failed");
+                    response.send("Wrong username or password");
+                }
+                else{
+                    console.log("found doctor");
+                    response.send("successfuly logged doctor in");
+                }
+                sql.close();    
+            });
+        }            
          }
     });
     }

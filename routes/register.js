@@ -22,8 +22,11 @@ router.post('/' ,function(request, response){
     const PhoneNumber = request.body.PhoneNumber;
     const IDNumber = request.body.IDNumber;
     const ConfirmPassword = request.body.ConfirmPassword;
+    const Role = request.body.optradio;
+    // response.send(request.body.optradio);
+    // response.send(request.body.optradio);
    
-    if (Password && FullName && PhoneNumber && Email && IDNumber && ConfirmPassword){
+    if (Password && FullName && PhoneNumber && Email && IDNumber && ConfirmPassword && Role){
         sql.connect(dbConfig, function(err){
         if(err){
             console.log("Error while connecting database :- " + err);
@@ -36,19 +39,35 @@ router.post('/' ,function(request, response){
             request.input('Password', sql.VarChar, Password);       
             request.input('Email', sql.VarChar, Email);       
             request.input('PhoneNumber', sql.VarChar, PhoneNumber);
-            request.input('IDNumber', sql.VarChar, IDNumber);    
-            request.query("INSERT INTO Patients (PatientID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
+            request.input('IDNumber', sql.VarChar, IDNumber); 
+            if(Role == 0){ 
+                request.query("INSERT INTO Patients (PatientID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
+                    if(error){
+                        console.log("not inserted into database");
+                        response.send("not added to database");
+                    }
+                    else{
+                        console.log("inserted patient to database");
+                        response.redirect("/");
+                    }
+                    sql.close();    
+                });            
+         }
+        else if(Role == 1){
+            request.query("INSERT INTO Doctors (DoctorID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
                 if(error){
                     console.log("not inserted into database");
                     response.send("not added to database");
                 }
                 else{
-                    console.log("inserted to database");
+                    console.log("inserted doctor to database");
                     response.redirect("/");
                 }
                 sql.close();    
-            });            
-         }
+            });
+
+        }}
+         
     });
     }
     else{
