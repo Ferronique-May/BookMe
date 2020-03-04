@@ -30,7 +30,8 @@ router.post('/' ,function(request, response){
         else {                       
             const request = new sql.Request();   
             request.input('email', sql.VarChar, Email);
-            request.input('password', sql.VarChar, Password);
+            request.input('password', sql.VarChar, Password);       
+
             if (Role == 0){       
             request.query("SELECT * FROM Patients WHERE Email = @email AND PasswordHash = @password",function(error, results){
                 if(results.recordsets < 1){
