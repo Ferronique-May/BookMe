@@ -8,16 +8,13 @@ router.use(bodyParser.json());
 
 const dbConfig = {
   driver: 'msnodesqlv8',
-  connectionString: 'Driver={SQL Server Native Client 11.0};Server={localhost\\SQLExpress};Database={test};Trusted_Connection={yes};'
+  connectionString: 'Driver={SQL Server Native Client 11.0};Server={localhost\\SQLExpress};Database={BookMeDB};Trusted_Connection={yes};'
   }
 
 router.get('/', function(req, res) {
     res.sendFile(path.join(__dirname , '../Client/Register.html'));
-    console.log(__dirname);
-    console.log("Test get....")
 });
 
-console.log("hereeeee");
 router.post('/' ,function(request, response){
     const FullName = request.body.FullName;
     const Password = request.body.Password;
@@ -25,36 +22,52 @@ router.post('/' ,function(request, response){
     const PhoneNumber = request.body.PhoneNumber;
     const IDNumber = request.body.IDNumber;
     const ConfirmPassword = request.body.ConfirmPassword;
-   console.log("Testing......")
-    if (Password && FullName && PhoneNumber && Email && IDNumber && ConfirmPassword){
+    const Role = request.body.optradio;
+    // response.send(request.body.optradio);
+    // response.send(request.body.optradio);
+   
+    if (Password && FullName && PhoneNumber && Email && IDNumber && ConfirmPassword && Role){
         sql.connect(dbConfig, function(err){
         if(err){
             console.log("Error while connecting database :- " + err);
             response.send(err);
             sql.close();
         }
-        else {  
-            console.log("connected");                     
+        else {                   
             const request = new sql.Request();   
-            request.input('fullname', sql.VarChar, FullName);
-            request.input('password', sql.VarChar, Password);       
-            request.input('email', sql.VarChar, Email);       
-            request.input('phonenumber', sql.VarChar, PhoneNumber);
-            request.input('idnumber', sql.VarChar, IDNumber);    
-            request.query("INSERT INTO Patients (PatientID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@idnumber, @fullname, @email, @phonenumber, @password);",function(error, results){
+            request.input('FullName', sql.VarChar, FullName);
+            request.input('Password', sql.VarChar, Password);       
+            request.input('Email', sql.VarChar, Email);       
+            request.input('PhoneNumber', sql.VarChar, PhoneNumber);
+            request.input('IDNumber', sql.VarChar, IDNumber); 
+            if(Role == 0){ 
+                request.query("INSERT INTO Patients (PatientID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
+                    if(error){
+                        console.log("not inserted into database");
+                        response.send("not added to database");
+                    }
+                    else{
+                        console.log("inserted patient to database");
+                        response.redirect("/");
+                    }
+                    sql.close();    
+                });            
+         }
+        else if(Role == 1){
+            request.query("INSERT INTO Doctors (DoctorID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
                 if(error){
                     console.log("not inserted into database");
-                    console.log(request.body.FullName);
                     response.send("not added to database");
                 }
                 else{
-                    console.log("inserted to database");
-                    //response.send("successfully added to database");
+                    console.log("inserted doctor to database");
                     response.redirect("/");
                 }
                 sql.close();    
-            });            
-         }
+            });
+
+        }}
+         
     });
     }
     else{

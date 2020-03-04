@@ -21,6 +21,7 @@
     <div>
         <form id="RegisterForm" action="" method="POST">
             <div class="msg"></div>
+
             <p>Please select role:</p>
             <label for="Doctor">Doctor</label>
             <input type="radio" id="Doctor" name="Role" value="Doctor"><br>
@@ -41,11 +42,10 @@
             <input type="email" id="Email" name="Email" placeholder="Email" required><br>
             
             <label for="Password">Password:</label>
-            <input type="password" id="Password" name="Password"placeholder="Password" required pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"><br>
+            <input type="password" id="Password" name="Password"placeholder="Password" required ><br>
             
             <label for="ConfirmPassword">ConfirmPassword:</label>
-            <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="ConfirmPassword" required pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"><br>
-            
+            <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="ConfirmPassword" required><br>
             <button type="submit" id="Register">Register</button>
         </form>
     </div>
