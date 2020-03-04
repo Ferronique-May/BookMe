@@ -32,3 +32,4 @@ else if (ConfirmPassword.value === '' || Password.value != ConfirmPassword)
 {
     msg.innerHTML = 'Confirm Password can not be empty/Confirm Password should match with Password';
 }
+
