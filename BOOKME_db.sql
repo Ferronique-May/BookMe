@@ -508,9 +508,9 @@ AS
   FROM  UDF_DoctorPatientAppointments()
 GO
 
-CREATE VIEW VIEW_UpcomingPatientAppointments
+CREATE VIEW ViewForDoc_UpcomingPatientAppointments
 AS
-  SELECT PatientFullName,PatientEmail,PatientPhoneNumber,AppointmentDateTime,AppointmentDescription,DoctorsCommentsAfterAppointment,DoctorFullName,DoctorID
+  SELECT PatientFullName,PatientEmail,PatientPhoneNumber,AppointmentDateTime,AppointmentDescription,DoctorFullName,DoctorID
   FROM  UDF_DoctorPatientAppointments() WHERE AppointmentDateTime > GetDate()
 GO
 
@@ -520,4 +520,8 @@ AS
   FROM  UDF_DoctorPatientAppointments()
 GO
 
-
+CREATE VIEW ViewForPatient_PatientUpcomingAppointments
+AS
+  SELECT DoctorFullName,DoctorPhoneNumber, DoctorEmail, AppointmentDateTime,PatientID,PatientFullName
+  FROM  UDF_DoctorPatientAppointments() WHERE AppointmentDateTime > GetDate()
+GO
