@@ -8,7 +8,7 @@ router.use(bodyParser.json());
 
 const dbConfig = {
   driver: 'msnodesqlv8',
-  connectionString: 'Driver={SQL Server Native Client 11.0};Server={localhost\\SQLExpress};Database={test};Trusted_Connection={yes};'
+  connectionString: 'Driver={SQL Server Native Client 11.0};Server={localhost\\SQLExpress};Database={BookMeDB};Trusted_Connection={yes};'
   }
 
 router.get('/', function(req, res) {
@@ -32,14 +32,14 @@ router.post('/' ,function(request, response){
             const request = new sql.Request();   
             request.input('email', sql.VarChar, Email);
             request.input('password', sql.VarChar, Password);       
-            request.query("SELECT * FROM Users WHERE UserName = @username AND UserPassword = @password",function(error, results){
+            request.query("SELECT * FROM Patients WHERE Email = @email AND PasswordHash = @password",function(error, results){
                 if(results.recordsets < 1){
                     console.log("failed");
                     response.send("Wrong username or password");
                 }
                 else{
                     console.log("found");
-                    response.send(results);
+                    response.send("successfuly logged in");
                 }
                 sql.close();    
             });            

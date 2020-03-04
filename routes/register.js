@@ -13,11 +13,8 @@ const dbConfig = {
 
 router.get('/', function(req, res) {
     res.sendFile(path.join(__dirname , '../Client/Register.html'));
-    console.log(__dirname);
-    console.log("Test get....")
 });
 
-console.log("hereeeee");
 router.post('/' ,function(request, response){
     const FullName = request.body.FullName;
     const Password = request.body.Password;
@@ -33,9 +30,7 @@ router.post('/' ,function(request, response){
             response.send(err);
             sql.close();
         }
-        else {  
-            console.log("connected");    
-            console.log(FullName);                 
+        else {                   
             const request = new sql.Request();   
             request.input('FullName', sql.VarChar, FullName);
             request.input('Password', sql.VarChar, Password);       
@@ -45,12 +40,10 @@ router.post('/' ,function(request, response){
             request.query("INSERT INTO Patients (PatientID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
                 if(error){
                     console.log("not inserted into database");
-                    console.log(request.body.FullName);
                     response.send("not added to database");
                 }
                 else{
                     console.log("inserted to database");
-                    //response.send("successfully added to database");
                     response.redirect("/");
                 }
                 sql.close();    
