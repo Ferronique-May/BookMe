@@ -34,6 +34,7 @@ router.post("/", async (req, res) => {
     }
   });
 
+
 function InsertUpdateDeletePatient(statementType,PatientID,fullname,email,phonenumber,password){
     const connection = new sql.ConnectionPool(dbConfig);
     const request = new sql.Request(connection);
@@ -44,10 +45,12 @@ function InsertUpdateDeletePatient(statementType,PatientID,fullname,email,phonen
     request.input('Phonenumber', sql.VarChar, phonenumber);
     request.input('Password', sql.VarChar, password); 
     connection.connect(function(err){
+
         if(err){
             console.log(err)
             return    
         }
+
         request.query("EXEC SP_InsertUpdateDeletePatient @StatemetType,@PatientID,@Fullname,@Email,@PhoneNumber,@Password",function(err,data){
             if(err){
                 console.log('FAIL......')
@@ -56,6 +59,50 @@ function InsertUpdateDeletePatient(statementType,PatientID,fullname,email,phonen
             } 
             connection.close();
         })
+        else {                   
+            const request = new sql.Request();   
+            request.input('FullName', sql.VarChar, FullName);
+            request.input('Password', sql.VarChar, Password);       
+            request.input('Email', sql.VarChar, Email);       
+            request.input('PhoneNumber', sql.VarChar, PhoneNumber);
+            request.input('IDNumber', sql.VarChar, IDNumber); 
+            if(Role == 0){ 
+                request.query("INSERT INTO Patients (PatientID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
+                    if(error){
+                        console.log("not inserted into database");
+                        response.send("not added to database");
+                    }
+                    else{
+                        console.log("inserted patient to database");
+                        response.redirect("/");
+                    }
+                    sql.close();    
+                });            
+         }
+        else if(Role == 1){
+            request.query("INSERT INTO Doctors (DoctorID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
+                if(error){
+                    console.log("not inserted into database");
+                    response.send("not added to database");
+                }
+                else{
+                    console.log("inserted doctor to database");
+                    response.redirect("/");
+                }
+                sql.close();    
+            });
+
+        }}
+         
+    });
+    }
+    else{
+        response.send('Please enter Username and Password!');
+		response.end();
+
+    }
+});
+
 
     })
 }

@@ -20,10 +20,21 @@
     <div>
         <form id="RegisterForm" action="" method="POST">
             <div class="msg"></div>
+
+            <p>Please select role:</p>
+            <!-- <label for="Doctor">Doctor</label>
+            <input type="radio" id="Doctor" name="Role" value="Doctor"><br>
+
+            <label for="Patient">Patient</label>
+            <input type="radio" id="Patient" name="Role" value="Patient"><br> -->
+            <div class="form-group" id="role">
+                <label class="radio-inline"><input type="radio" name="optradio" value="1">Doctor</label>
+                <label class="radio-inline"><input type="radio" name="optradio" value="0">Patient</label>
+                </div>
+
             <label for="FullName">FullName:</label>
             <input type="text" id="FullName" name="FullName" placeholder="FullName" required><br>
 
-            
             <label for="IDNumber">IDNumber:</label>
             <input type="text" id="IDNumber" name="IDNumber" placeholder="IDNumber" required><br>
             
@@ -34,11 +45,12 @@
             <input type="email" id="Email" name="Email" placeholder="Email" required><br>
             
             <label for="Password">Password:</label>
-            <input type="password" id="Password" name="Password"placeholder="Password" ><br>
+
+            <input type="password" id="Password" name="Password"placeholder="Password" required ><br>
             
             <label for="ConfirmPassword">ConfirmPassword:</label>
-            <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="ConfirmPassword"><br>
-            
+            <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="ConfirmPassword" required><br>
+
             <button type="submit" id="Register">Register</button>
         </form>
     </div>
