@@ -1,4 +1,5 @@
 var router = require('express').Router();
+var crypto = require('crypto');
 const sql = require("mssql/msnodesqlv8");
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -16,8 +17,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/' ,function(request, response){
+    // var Password = req.body.Password;
     const Email = request.body.Email;
     const Password = request.body.Password;
+    var hash = crypto.createHash('md5').update(Password).digest('hex');
     const Role = request.body.optradio;
    
     if (Email && Password && Role){
@@ -30,7 +33,7 @@ router.post('/' ,function(request, response){
         else {                       
             const request = new sql.Request();   
             request.input('email', sql.VarChar, Email);
-            request.input('password', sql.VarChar, Password);       
+            request.input('password', sql.VarChar, hash);       
 
             if (Role == 0){       
             request.query("SELECT * FROM Patients WHERE Email = @email AND PasswordHash = @password",function(error, results){

@@ -1,3 +1,4 @@
+var crypto = require('crypto');
 const sql = require("mssql/msnodesqlv8");
 var router = require('express').Router();
 const path = require('path');
@@ -15,6 +16,10 @@ router.get('/', function(req, res) {
     res.sendFile(path.join(__dirname , '../Client/Register.html'));
 });
 router.post("/", async (req, res) => {
+    var Password = req.body.Password;
+    var hash = crypto.createHash('md5').update(Password).digest('hex');
+    console.log(hash);
+    // res.send(hash);
     let data = {};
     try {
       const requested = req.body;
@@ -25,7 +30,7 @@ router.post("/", async (req, res) => {
         requested.FullName,
         requested.Email,
         requested.PhoneNumber,
-        requested.Password
+        hash
         )
       }
       if(Role == 1){
@@ -34,7 +39,7 @@ router.post("/", async (req, res) => {
       requested.FullName,
       requested.Email,
       requested.PhoneNumber,
-      requested.Password
+      hash
       )
       }
 
