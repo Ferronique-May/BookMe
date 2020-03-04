@@ -18,14 +18,27 @@ router.post("/", async (req, res) => {
     let data = {};
     try {
       const requested = req.body;
-      console.log(requested.IDNumber)
-      await InsertUpdateDeletePatient('INSERT',
+      const Role = requested.optradio
+      if(Role==0){
+        await InsertUpdateDeletePatient('INSERT',
+        requested.IDNumber,
+        requested.FullName,
+        requested.Email,
+        requested.PhoneNumber,
+        requested.Password
+        )
+      }
+      if(Role == 1){
+        await InsertUpdateDeleteDoctor('INSERT',
       requested.IDNumber,
       requested.FullName,
       requested.Email,
       requested.PhoneNumber,
       requested.Password
       )
+      }
+
+      
       data.success = true;
     } catch (e) {
       data.success = false;
@@ -56,56 +69,36 @@ function InsertUpdateDeletePatient(statementType,PatientID,fullname,email,phonen
             if(err){
                 console.log('FAIL......')
             }else{
-                console.log(data.recordset)
+                console.log("Successful")
             } 
             connection.close();
         })
-        else {                   
-            const request = new sql.Request();   
-            request.input('FullName', sql.VarChar, FullName);
-            request.input('Password', sql.VarChar, Password);       
-            request.input('Email', sql.VarChar, Email);       
-            request.input('PhoneNumber', sql.VarChar, PhoneNumber);
-            request.input('IDNumber', sql.VarChar, IDNumber); 
-            if(Role == 0){ 
-                request.query("INSERT INTO Patients (PatientID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
-                    if(error){
-                        console.log("not inserted into database");
-                        response.send("not added to database");
-                    }
-                    else{
-                        console.log("inserted patient to database");
-                        response.redirect("/");
-                    }
-                    sql.close();    
-                });            
-         }
-        else if(Role == 1){
-            request.query("INSERT INTO Doctors (DoctorID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@IDNumber, @FullName, @Email, @PhoneNumber, @Password);",function(error, results){
-                if(error){
-                    console.log("not inserted into database");
-                    response.send("not added to database");
-                }
-                else{
-                    console.log("inserted doctor to database");
-                    response.redirect("/");
-                }
-                sql.close();    
-            });
+   })
+ }
 
-        }}
-         
-    });
-    }
-    else{
-        response.send('Please enter Username and Password!');
-		response.end();
+ function InsertUpdateDeleteDoctor(statementType,DoctorID,fullname,email,phonenumber,password){
+    const connection = new sql.ConnectionPool(dbConfig);
+    const request = new sql.Request(connection);
+    request.input('StatemetType', sql.VarChar, statementType);
+    request.input('DoctorID', sql.VarChar, DoctorID);
+    request.input('Fullname', sql.VarChar, fullname);       
+    request.input('Email', sql.VarChar, email);       
+    request.input('Phonenumber', sql.VarChar, phonenumber);
+    request.input('Password', sql.VarChar, password); 
+    connection.connect(function(err){
 
-    }
-});
-
-
-    })
-}
-
+        if(err){
+            console.log(err)
+            return    
+        }
+        request.query("EXEC SP_InsertUpdateDeleteDoctor @StatemetType,@DoctorID,@Fullname,@Email,@PhoneNumber,@Password",function(err,data){
+            if(err){
+                console.log('FAIL......')
+            }else{
+                console.log("Successful")
+            } 
+            connection.close();
+        })
+   })
+ }
 module.exports = router;
