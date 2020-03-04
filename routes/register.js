@@ -18,7 +18,6 @@ router.post("/", async (req, res) => {
     let data = {};
     try {
       const requested = req.body;
-      console.log(requested.IDNumber)
       await InsertUpdateDeletePatient('INSERT',
       requested.IDNumber,
       requested.FullName,
