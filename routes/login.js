@@ -40,7 +40,7 @@ router.post('/' ,function(request, response){
                 }
                 else{
                     console.log("found patient");
-                    response.send("successfuly logged patient in");
+                    response.send("successfuly logged p");
                 }
                 sql.close();    
             });
