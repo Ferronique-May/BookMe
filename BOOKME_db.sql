@@ -481,13 +481,15 @@ CREATE FUNCTION UDF_DoctorPatientAppointments()
 RETURNS TABLE
 AS
 RETURN 
-	SELECT  Patients.FullName AS PatientFullName,
+	SELECT  Patients.PatientID,
+			Patients.FullName AS PatientFullName,
 			Patients.Email AS PatientEmail,
 			Patients.PhoneNumber AS PatientPhoneNumber, 
 			Appointments.AppointmentDateTime,
 			Appointments.AppointmentDescription, 
 			Appointments.DoctorsCommentsAfterAppointment, 
-			Doctors.DoctorID,Doctors.FullName AS DoctorFullName, 
+			Doctors.DoctorID,
+			Doctors.FullName AS DoctorFullName, 
 			Doctors.Specialization, 
 			Doctors.Email AS DoctorEmail, 
 			Doctors.PhoneNumber AS DoctorPhoneNumber
@@ -502,13 +504,13 @@ GO
 
 CREATE VIEW VIEW_AllPatientAppointments
 AS
-  SELECT *
+  SELECT PatientFullName,PatientEmail,PatientPhoneNumber,AppointmentDateTime,AppointmentDescription,DoctorsCommentsAfterAppointment,DoctorFullName,DoctorID
   FROM  UDF_DoctorPatientAppointments()
 GO
 
 CREATE VIEW VIEW_UpcomingPatientAppointments
 AS
-  SELECT *
+  SELECT PatientFullName,PatientEmail,PatientPhoneNumber,AppointmentDateTime,AppointmentDescription,DoctorsCommentsAfterAppointment,DoctorFullName,DoctorID
   FROM  UDF_DoctorPatientAppointments() WHERE AppointmentDateTime > GetDate()
 GO
 
@@ -517,3 +519,5 @@ AS
   SELECT DoctorFullName, Specialization, DoctorEmail, DoctorPhoneNumber
   FROM  UDF_DoctorPatientAppointments()
 GO
+
+
