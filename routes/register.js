@@ -19,12 +19,14 @@ router.get('/', function(req, res) {
 
 console.log("hereeeee");
 router.post('/' ,function(request, response){
-    const fullname = request.body.fullname;
-    const password = request.body.password;
-    const email = request.body.email;
-    const phonenumber = request.body.phonenumber;
+    const FullName = request.body.FullName;
+    const Password = request.body.Password;
+    const Email = request.body.Email;
+    const PhoneNumber = request.body.PhoneNumber;
+    const IDNumber = request.body.IDNumber;
+    const ConfirmPassword = request.body.ConfirmPassword;
    console.log("Testing......")
-    if (password && fullname && phonenumber && email){
+    if (Password && FullName && PhoneNumber && Email && IDNumber && ConfirmPassword){
         sql.connect(dbConfig, function(err){
         if(err){
             console.log("Error while connecting database :- " + err);
@@ -34,13 +36,15 @@ router.post('/' ,function(request, response){
         else {  
             console.log("connected");                     
             const request = new sql.Request();   
-            request.input('fullname', sql.VarChar, fullname);
-            request.input('password', sql.VarChar, password);       
-            request.input('email', sql.VarChar, email);       
-            request.input('phonenumber', sql.VarChar, phonenumber);       
-            request.query("INSERT INTO Users (UserName, UserPassword) VALUES (@fullname, @password);",function(error, results){
+            request.input('fullname', sql.VarChar, FullName);
+            request.input('password', sql.VarChar, Password);       
+            request.input('email', sql.VarChar, Email);       
+            request.input('phonenumber', sql.VarChar, PhoneNumber);
+            request.input('idnumber', sql.VarChar, IDNumber);    
+            request.query("INSERT INTO Patients (PatientID, FullName, Email, PhoneNumber, PasswordHash) VALUES (@idnumber, @fullname, @email, @phonenumber, @password);",function(error, results){
                 if(error){
                     console.log("not inserted into database");
+                    console.log(request.body.FullName);
                     response.send("not added to database");
                 }
                 else{

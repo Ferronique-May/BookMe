@@ -17,10 +17,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/' ,function(request, response){
-    const username = request.body.username;
-    const password = request.body.password;
+    const Email = request.body.Email;
+    const Password = request.body.Password;
    
-    if (username && password){
+    if (Email && Password){
         sql.connect(dbConfig, function(err){
         if(err){
             console.log("Error while connecting database :- " + err);
@@ -30,8 +30,8 @@ router.post('/' ,function(request, response){
         else {  
             console.log("connected");                     
             const request = new sql.Request();   
-            request.input('username', sql.VarChar, username);
-            request.input('password', sql.VarChar, password);       
+            request.input('email', sql.VarChar, Email);
+            request.input('password', sql.VarChar, Password);       
             request.query("SELECT * FROM Users WHERE UserName = @username AND UserPassword = @password",function(error, results){
                 if(results.recordsets < 1){
                     console.log("failed");
