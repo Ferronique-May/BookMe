@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
         await InsertUpdateDeleteDoctor('INSERT',
       requested.IDNumber,
       requested.FullName,
-      requested.Specialisation,
+      requested.Practise,
       requested.Email,
       requested.PhoneNumber,
       requested.Password
@@ -38,13 +38,13 @@ router.post("/", async (req, res) => {
     }
   });
 
-  function InsertUpdateDeleteDoctor(statementType,DoctorID,fullname,specialisation,email,phonenumber,password){
+  function InsertUpdateDeleteDoctor(statementType,DoctorID,fullname,practise,email,phonenumber,password){
     const connection = new sql.ConnectionPool(dbConfig);
     const request = new sql.Request(connection);
     request.input('StatemetType', sql.VarChar, statementType);
     request.input('DoctorID', sql.VarChar, DoctorID);
     request.input('Fullname', sql.VarChar, fullname); 
-    request.input('Specialisation', sql.VarChar, specialisation);      
+    request.input('Practise', sql.VarChar, practise);      
     request.input('Email', sql.VarChar, email);       
     request.input('Phonenumber', sql.VarChar, phonenumber);
     request.input('Password', sql.VarChar, password); 
@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
             console.log(err)
             return    
         }
-        request.query("EXEC SP_InsertUpdateDeleteDoctor @StatemetType,@DoctorID,@Fullname,@Specialisation,@Email,@PhoneNumber,@Password",function(err,data){
+        request.query("EXEC SP_InsertUpdateDeleteDoctor @StatemetType,@DoctorID,@Fullname,@Practise,@Email,@PhoneNumber,@Password",function(err,data){
             if(err){
                 console.log('FAIL......')
             }else{

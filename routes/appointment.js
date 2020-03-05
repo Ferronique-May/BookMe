@@ -12,7 +12,7 @@ const dbConfig = {
   }
 
 router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname , '../Client/Appointment.html'));
+    res.sendFile(path.join(__dirname , '../Client/AppointmentDate.html'));
 });
 
 module.exports = router;
