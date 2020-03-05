@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/Style/style.css">
+        <title>BOOK_ME</title>
+    </head>
+<body>
+    <h2>Pick Your Available time and date</h2>
+    <input type="datetime-local" id="datetime" name="datetime"><br>
+    <button id="Book">Book</button>
+    <button id="Update">Update</button>
+    <button id="Cancel">Cancel</button>
+    <script>
+        document.getElementById("Book").onclick = function () {
+            location.href = "PatientAppointment.html";
+        };
+    </script>
+</body>
+</html>

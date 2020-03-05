@@ -20,36 +20,38 @@
     </header>
     <section>
         <h3>Make You Appointment </h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi facere, soluta magnam consectetur molestias itaque
-        ad sint fugit architecto incidunt iste culpa perspiciatis possimus voluptates aliquid consequuntur cumque quasi.
-        Perspiciatis.</p>
-        <form>
-            <label for="Description">Description</label><br>
-                <textarea id="Description" type="text" placeholder="Short Description of You illness"></textarea><br>
-            <label for="Booking">Book Appointment date</label>
-                <input id="Booking" type="date" required><br>
-            <label for="Doctor">Doctor</label>
-                <select class="form-control">
-                    <option value="Allergists">Allergists</option>
-                    <option value="Dermatologists">Dermatologists</option>
-                    <option value="Ophthalmologists">Ophthalmologists</option>
-                    <option value="Gynecologists">Gynecologists</option>
-                    <option value="Cardiologists">Cardiologists</option>
-                    <option value="Endocrinologists">Endocrinologists</option>
-                    <option value="Gastroenterologists">Gastroenterologists</option>
-                    <option value="Nephrologists">Nephrologists</option>
-                    <option value="Urologists">Urologists</option>
-                </select><br>
-            <label for="AppointmentFor">AppointmentFor</label>
-                <select class="form-control">
-                    <option value="Adult">Adult</option>
-                    <option value="Child">Child</option>
-                </select><br>                                
-            <button type="submit">Book</button><br>
-            <label for="ViewBooking">View Your Appointment</label>
-                <input id="ViewBooking" type="date" value="ViewBooking"><br>
-                <button type="submit">View</button>
-        </form>
-</section>
+        
+        <table>
+            <tr>
+                <th>Doctors Name</th>
+                <th>Practise</th>
+                <th>Phonenumber</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td id="Doctor">Dr Parker</td>
+                <td id="Practise">Anesthesiologists</td>
+                <td id="PhoneNumber">078 154 8432</td>
+                <td><button type="submit" id="BookNow">BookNow</button></td>
+            </tr>
+            <tr>
+                <td id="Doctor">Dr Parker</td>
+                <td id="Practise">Cardiologists</td>
+                <td id="PhoneNumber">078 154 8432</td>
+                <td><button type="submit" id="BookNow">BookNow</button></td>
+            </tr>
+            <tr>
+                <td id="Doctor" >Dr Parker</td>
+                <td id="Practise">Immunologists</td>
+                <td id="PhoneNumber">078 154 8432</td>
+                <td><button type="submit" id="BookNow">BookNow</button></td>
+            </tr>
+        </table>
+    </section>
+    <script>
+        document.getElementById("BookNow").onclick = function () {
+            location.href = "AppointmentDate.html";
+        };
+    </script>
 </body>
 </html>
