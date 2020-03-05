@@ -12,20 +12,20 @@ const dbConfig = {
   }
 
 router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname , '../Client/Register.html'));
+    res.sendFile(path.join(__dirname , '../Client/DoctorRegister.html'));
 });
 router.post("/", async (req, res) => {
     let data = {};
     try {
       const requested = req.body;
-    
-        await InsertUpdateDeletePatient('INSERT',
-        requested.IDNumber,
-        requested.FullName,
-        requested.Email,
-        requested.PhoneNumber,
-        requested.Password
-        )
+        await InsertUpdateDeleteDoctor('INSERT',
+      requested.IDNumber,
+      requested.FullName,
+      requested.Specialisation,
+      requested.Email,
+      requested.PhoneNumber,
+      requested.Password
+      )
       
 
       
@@ -38,13 +38,13 @@ router.post("/", async (req, res) => {
     }
   });
 
-
-function InsertUpdateDeletePatient(statementType,PatientID,fullname,email,phonenumber,password){
+  function InsertUpdateDeleteDoctor(statementType,DoctorID,fullname,specialisation,email,phonenumber,password){
     const connection = new sql.ConnectionPool(dbConfig);
     const request = new sql.Request(connection);
     request.input('StatemetType', sql.VarChar, statementType);
-    request.input('PatientID', sql.VarChar, PatientID);
-    request.input('Fullname', sql.VarChar, fullname);       
+    request.input('DoctorID', sql.VarChar, DoctorID);
+    request.input('Fullname', sql.VarChar, fullname); 
+    request.input('Specialisation', sql.VarChar, specialisation);      
     request.input('Email', sql.VarChar, email);       
     request.input('Phonenumber', sql.VarChar, phonenumber);
     request.input('Password', sql.VarChar, password); 
@@ -54,8 +54,7 @@ function InsertUpdateDeletePatient(statementType,PatientID,fullname,email,phonen
             console.log(err)
             return    
         }
-
-        request.query("EXEC SP_InsertUpdateDeletePatient @StatemetType,@PatientID,@Fullname,@Email,@PhoneNumber,@Password",function(err,data){
+        request.query("EXEC SP_InsertUpdateDeleteDoctor @StatemetType,@DoctorID,@Fullname,@Specialisation,@Email,@PhoneNumber,@Password",function(err,data){
             if(err){
                 console.log('FAIL......')
             }else{
@@ -66,5 +65,4 @@ function InsertUpdateDeletePatient(statementType,PatientID,fullname,email,phonen
    })
  }
 
- 
-module.exports = router;
+ module.exports = router;
