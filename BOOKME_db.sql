@@ -25,6 +25,7 @@ GO
 
 CREATE TABLE Appointments(
 	AppointmentID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	DoctorID VARCHAR(13) NOT NULL,
 	AppointmentDateTime DATETIME NOT NULL,
 	AppointmentDescription VARCHAR(200) NULL,
 	DoctorsCommentsAfterAppointment VARCHAR(200) NULL
@@ -33,13 +34,12 @@ GO
 
 CREATE TABLE PatientAppointments(
 	AppointmentID INT NOT NULL,
-	PatientID VARCHAR(13) NOT NULL,
-	DoctorID VARCHAR(13) NOT NULL,
+	PatientID VARCHAR(13) NOT NULL
 );
 GO
 
 --MAKING A PRIMARY KEY FOR PATIENTAPPOINTMENTS
-ALTER TABLE PatientAppointments ADD CONSTRAINT PK_PatientAppointments_AppointmentID_PatientID_DoctorID PRIMARY KEY (AppointmentID, PatientID, DoctorID);
+ALTER TABLE PatientAppointments ADD CONSTRAINT PK_PatientAppointments_AppointmentID_PatientID PRIMARY KEY (AppointmentID, PatientID);
 GO
 
 CREATE TABLE MedicalAidPayment(
@@ -60,7 +60,7 @@ GO
 
 
 --ADD FOREIGN KEYS
-ALTER TABLE PatientAppointments ADD CONSTRAINT FK_PatientAppointments_DoctorID FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID);
+ALTER TABLE Appointments ADD CONSTRAINT FK_Appointments_DoctorID FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID);
 ALTER TABLE PatientAppointments ADD CONSTRAINT FK_PatientAppointments_AppointmentID  FOREIGN KEY (AppointmentID) REFERENCES Appointments(AppointmentID);
 ALTER TABLE PatientAppointments ADD CONSTRAINT FK_PatientAppointments_PatientID  FOREIGN KEY (PatientID) REFERENCES Patients(PatientID);
 ALTER TABLE MedicalAidPayment ADD CONSTRAINT FK_MedicalAidPayment_PatientID  FOREIGN KEY (PatientID) REFERENCES Patients(PatientID);
@@ -79,8 +79,8 @@ ALTER TABLE Patients ADD CONSTRAINT CK_Patients_PhoneNumber CHECK (LEN(PhoneNumb
 ALTER TABLE Patients ADD CONSTRAINT CK_Patients_PatientID CHECK (LEN(PatientID) = 13);
 ALTER TABLE Doctors ADD CONSTRAINT CK_Doctors_PhoneNumber CHECK (LEN(PhoneNumber) = 10);
 ALTER TABLE Doctors ADD CONSTRAINT CK_Doctors_DoctorID CHECK (LEN(DoctorID) = 13);
+--ALTER TABLE Appointments ADD CONSTRAINT CK_Appointments_AppointmentDateTime CHECK (dbo.UDF_CheckAppointmentDate(AppointmentDateTime, DoctorID )= 'FALSE')
 GO
-
 
 --STORED PROCEDURES TO CREATE/UPDATE/DELETE USERS
 CREATE PROCEDURE SP_InsertUpdateDeletePatient
@@ -208,7 +208,7 @@ CREATE PROCEDURE SP_InsertUpdateDeleteDoctor
       ELSE IF @StatementType = 'DELETE'  
         BEGIN TRY 
 			
-			DELETE FROM PatientAppointments  
+			DELETE FROM Appointments  
             WHERE  DoctorID = @DoctorID 
 			
             DELETE FROM Doctors  
@@ -226,9 +226,8 @@ CREATE PROCEDURE SP_InsertUpdateDeleteDoctor
 			END CATCH;
   END
 GO
-
+ 
 --STORED PROCEDURE TO ADD APPOINTMENTS
-
 CREATE PROCEDURE SP_InsertUpdateDeleteAppointment
 ( 
 	@StatementType VARCHAR(20),
@@ -236,17 +235,17 @@ CREATE PROCEDURE SP_InsertUpdateDeleteAppointment
 	@appointmentDescription VARCHAR(200)='',
 	@doctorsCommentsAfterAppointment VARCHAR(200)='',
 	@PatientIDforPatientAppointments VARCHAR(13)='',
-	@DoctorIDforPatientAppointments VARCHAR(13)='',
+	@DoctorID VARCHAR(13)='',
 	@appointmentID INT =''
 )
 	AS
 	BEGIN
 		IF @StatementType ='INSERT'
 			BEGIN TRY
-				INSERT INTO Appointments (AppointmentDateTime, AppointmentDescription) VALUES (@appointmentDateTime, @appointmentDescription)
+				INSERT INTO Appointments (AppointmentDateTime, AppointmentDescription, DoctorID) VALUES (@appointmentDateTime, @appointmentDescription,@DoctorID)
 				DECLARE @appointmentIDForPatientAppointments INT
 				SET @appointmentIDForPatientAppointments = (SELECT AppointmentID FROM Appointments WHERE AppointmentDateTime = @appointmentDateTime)
-				EXEC SP_InsertDeletePatientAppointments  @StatementType='INSERT',@appointmentID = @appointmentIDForPatientAppointments, @PatientID=@PatientIDforPatientAppointments, @DoctorID=@DoctorIDforPatientAppointments 
+				EXEC dbo.SP_InsertDeletePatientAppointments  @StatementType='INSERT',@appointmentID = @appointmentIDForPatientAppointments, @PatientID=@PatientIDforPatientAppointments
 			END TRY
 			BEGIN CATCH
 				SELECT
@@ -263,6 +262,7 @@ CREATE PROCEDURE SP_InsertUpdateDeleteAppointment
 
             UPDATE Appointments  
             SET    AppointmentDateTime = @appointmentDateTime,
+				   DoctorID = @DoctorID,
 				   AppointmentDescription = @appointmentDescription,
 				   DoctorsCommentsAfterAppointment = @doctorsCommentsAfterAppointment
 
@@ -312,7 +312,7 @@ CREATE PROCEDURE SP_InsertDeletePatientAppointments
 	BEGIN
 		IF @StatementType ='INSERT'
 			BEGIN TRY
-				INSERT INTO PatientAppointments (AppointmentID, PatientID,DoctorID) VALUES (@appointmentID, @PatientID, @DoctorID)
+				INSERT INTO PatientAppointments (AppointmentID, PatientID) VALUES (@appointmentID, @PatientID)
 				 
 			END TRY
 			BEGIN CATCH
@@ -333,9 +333,6 @@ CREATE PROCEDURE SP_InsertDeletePatientAppointments
 			
             DELETE FROM PatientAppointments  
             WHERE  PatientID = @PatientID
-			
-            DELETE FROM PatientAppointments  
-            WHERE  DoctorID = @DoctorID
 
         END TRY
 		BEGIN CATCH
@@ -499,8 +496,15 @@ RETURN
 	INNER JOIN Patients
 		ON PatientAppointments.PatientID = Patients.PatientID
 	INNER JOIN Doctors
-		ON PatientAppointments.DoctorID = Doctors.DoctorID
+		ON Appointments.DoctorID = Doctors.DoctorID
 GO
+
+--CREATE FUNCTION UDF_CheckAppointmentDate (@patientPreferredAppointmentDate DATETIME, @doctorID VARCHAR(13))
+--RETURNS TABLE
+--AS 
+--RETURN
+--	Select * from Appointments where EXISTS(SELECT * FROM  Appointments WHERE AppointmentDateTime = @patientPreferredAppointmentDate AND DoctorID = @doctorID ) 
+--GO
 
 CREATE VIEW VIEW_AllPatientAppointments
 AS
@@ -514,10 +518,11 @@ AS
   FROM  UDF_DoctorPatientAppointments() WHERE AppointmentDateTime > GetDate()
 GO
 
+
 CREATE VIEW VIEW_AllDoctorsSpecialization
 AS
-  SELECT DoctorFullName, Specialization, DoctorEmail, DoctorPhoneNumber
-  FROM  UDF_DoctorPatientAppointments()
+  SELECT Doctors.FullName, Specialization, Email, PhoneNumber,DoctorID
+  FROM  Doctors
 GO
 
 CREATE VIEW ViewForPatient_PatientUpcomingAppointments
@@ -525,3 +530,4 @@ AS
   SELECT DoctorFullName,DoctorPhoneNumber, DoctorEmail, AppointmentDateTime,PatientID,PatientFullName
   FROM  UDF_DoctorPatientAppointments() WHERE AppointmentDateTime > GetDate()
 GO
+
