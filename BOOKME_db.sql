@@ -16,6 +16,7 @@ GO
 CREATE TABLE Doctors (
     DoctorID VARCHAR(13) NOT NULL PRIMARY KEY,
     FullName VARCHAR(80) NOT NULL,
+	Specialization VARCHAR(80) NOT NULL,
 	Email VARCHAR(80) NOT NULL,
 	PhoneNumber VARCHAR(10) NOT NULL,
 	PasswordHash VARCHAR(150) NOT NULL 
@@ -79,6 +80,7 @@ ALTER TABLE Patients ADD CONSTRAINT CK_Patients_PatientID CHECK (LEN(PatientID) 
 ALTER TABLE Doctors ADD CONSTRAINT CK_Doctors_PhoneNumber CHECK (LEN(PhoneNumber) = 10);
 ALTER TABLE Doctors ADD CONSTRAINT CK_Doctors_DoctorID CHECK (LEN(DoctorID) = 13);
 GO
+
 
 --STORED PROCEDURES TO CREATE/UPDATE/DELETE USERS
 CREATE PROCEDURE SP_InsertUpdateDeletePatient
@@ -155,13 +157,12 @@ CREATE PROCEDURE SP_InsertUpdateDeletePatient
   END
 GO
 
-
-
 CREATE PROCEDURE SP_InsertUpdateDeleteDoctor
 ( 
 	@StatementType VARCHAR(20), 
 	@DoctorID VARCHAR(13)='',  
-	@fullname VARCHAR(80)='', 
+	@fullname VARCHAR(80)='',
+	@specialization VARCHAR(80)='',
 	@email VARCHAR(80)='', 
 	@phonenumber VARCHAR(10)='', 
 	@password VARCHAR(50)=''
@@ -170,7 +171,7 @@ CREATE PROCEDURE SP_InsertUpdateDeleteDoctor
 	BEGIN
 		IF @StatementType ='INSERT'
 			BEGIN TRY
-				INSERT INTO Doctors (DoctorID,FullName, Email, PhoneNumber, PasswordHash) VALUES (@DoctorID, @fullname, @email, @phonenumber, @password)
+				INSERT INTO Doctors (DoctorID,FullName, Specialization, Email, PhoneNumber, PasswordHash) VALUES (@DoctorID, @fullname, @specialization, @email, @phonenumber, @password)
 			END TRY
 			BEGIN CATCH
 				SELECT
@@ -187,6 +188,7 @@ CREATE PROCEDURE SP_InsertUpdateDeleteDoctor
 
             UPDATE Doctors  
             SET    FullName = @fullname,
+				   Specialization = @specialization,
 				   Email = @email,  
                    PhoneNumber = @phonenumber,  
                    PasswordHash = @password 
@@ -230,11 +232,12 @@ GO
 CREATE PROCEDURE SP_InsertUpdateDeleteAppointment
 ( 
 	@StatementType VARCHAR(20),
-	@appointmentID INT ='',
 	@appointmentDateTime DATETIME='',  
 	@appointmentDescription VARCHAR(200)='',
+	@doctorsCommentsAfterAppointment VARCHAR(200)='',
 	@PatientIDforPatientAppointments VARCHAR(13)='',
-	@DoctorIDforPatientAppointments VARCHAR(13)=''
+	@DoctorIDforPatientAppointments VARCHAR(13)='',
+	@appointmentID INT =''
 )
 	AS
 	BEGIN
@@ -243,7 +246,7 @@ CREATE PROCEDURE SP_InsertUpdateDeleteAppointment
 				INSERT INTO Appointments (AppointmentDateTime, AppointmentDescription) VALUES (@appointmentDateTime, @appointmentDescription)
 				DECLARE @appointmentIDForPatientAppointments INT
 				SET @appointmentIDForPatientAppointments = (SELECT AppointmentID FROM Appointments WHERE AppointmentDateTime = @appointmentDateTime)
-				EXEC SP_InsertUpdateDeletePatientAppointments  'INSERT',@appointmentIDForPatientAppointments, @PatientIDforPatientAppointments, @DoctorIDforPatientAppointments 
+				EXEC SP_InsertDeletePatientAppointments  @StatementType='INSERT',@appointmentID = @appointmentIDForPatientAppointments, @PatientID=@PatientIDforPatientAppointments, @DoctorID=@DoctorIDforPatientAppointments 
 			END TRY
 			BEGIN CATCH
 				SELECT
@@ -260,7 +263,9 @@ CREATE PROCEDURE SP_InsertUpdateDeleteAppointment
 
             UPDATE Appointments  
             SET    AppointmentDateTime = @appointmentDateTime,
-				   AppointmentDescription = @appointmentDescription
+				   AppointmentDescription = @appointmentDescription,
+				   DoctorsCommentsAfterAppointment = @doctorsCommentsAfterAppointment
+
             WHERE AppointmentID = @appointmentID  
 
         END TRY
@@ -470,4 +475,53 @@ CREATE PROCEDURE SP_InsertUpdateDeleteAlternativePaymentDetails
 					ERROR_MESSAGE() AS ErrorMessage;
 			END CATCH;
   END
+GO
+
+CREATE FUNCTION UDF_DoctorPatientAppointments()
+RETURNS TABLE
+AS
+RETURN 
+	SELECT  Patients.PatientID,
+			Patients.FullName AS PatientFullName,
+			Patients.Email AS PatientEmail,
+			Patients.PhoneNumber AS PatientPhoneNumber, 
+			Appointments.AppointmentDateTime,
+			Appointments.AppointmentDescription, 
+			Appointments.DoctorsCommentsAfterAppointment, 
+			Doctors.DoctorID,
+			Doctors.FullName AS DoctorFullName, 
+			Doctors.Specialization, 
+			Doctors.Email AS DoctorEmail, 
+			Doctors.PhoneNumber AS DoctorPhoneNumber
+	FROM PatientAppointments
+	INNER JOIN Appointments
+		ON PatientAppointments.AppointmentID = Appointments.AppointmentID 
+	INNER JOIN Patients
+		ON PatientAppointments.PatientID = Patients.PatientID
+	INNER JOIN Doctors
+		ON PatientAppointments.DoctorID = Doctors.DoctorID
+GO
+
+CREATE VIEW VIEW_AllPatientAppointments
+AS
+  SELECT PatientFullName,PatientEmail,PatientPhoneNumber,AppointmentDateTime,AppointmentDescription,DoctorsCommentsAfterAppointment,DoctorFullName,DoctorID
+  FROM  UDF_DoctorPatientAppointments()
+GO
+
+CREATE VIEW ViewForDoc_UpcomingPatientAppointments
+AS
+  SELECT PatientFullName,PatientEmail,PatientPhoneNumber,AppointmentDateTime,AppointmentDescription,DoctorFullName,DoctorID
+  FROM  UDF_DoctorPatientAppointments() WHERE AppointmentDateTime > GetDate()
+GO
+
+CREATE VIEW VIEW_AllDoctorsSpecialization
+AS
+  SELECT DoctorFullName, Specialization, DoctorEmail, DoctorPhoneNumber
+  FROM  UDF_DoctorPatientAppointments()
+GO
+
+CREATE VIEW ViewForPatient_PatientUpcomingAppointments
+AS
+  SELECT DoctorFullName,DoctorPhoneNumber, DoctorEmail, AppointmentDateTime,PatientID,PatientFullName
+  FROM  UDF_DoctorPatientAppointments() WHERE AppointmentDateTime > GetDate()
 GO

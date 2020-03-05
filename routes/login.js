@@ -3,7 +3,7 @@ var crypto = require('crypto');
 const sql = require("mssql/msnodesqlv8");
 const path = require('path');
 const bodyParser = require('body-parser');
-// var session = require('express-session');
+var session = require('express-session');
 
 // router.use(session({
 // 	secret: 'secret',
@@ -22,12 +22,12 @@ router.get('/', function(req, res) {
     res.sendFile(path.join(__dirname , '../Client/Login.html'));
 });
 
-router.post('/' ,function(request, response){
+router.post('/' ,function(req, response){
     // var Password = req.body.Password;
-    const Email = request.body.Email;
-    const Password = request.body.Password;
+    const Email = req.body.Email;
+    const Password = req.body.Password;
     var hash = crypto.createHash('md5').update(Password).digest('hex');
-    const Role = request.body.optradio;
+    const Role = req.body.optradio;
    
     if (Email && Password && Role){
         sql.connect(dbConfig, function(err){
@@ -49,9 +49,12 @@ router.post('/' ,function(request, response){
                 }
                 else{
                     console.log("found patient");
-                    response.send("successfuly logged patient in");
-                    // request.session.loggedin = true;
-				    // request.session.Email = Email;
+                    //response.send("successfuly logged patient in");
+                    ////////////////////////////////////////////////////////
+                    req.session.loggedin = true;
+				    req.session.Email = Email;
+                    response.redirect("/viewDoctors")
+                    ////////////////////////////////////////////////////////
                 }
                 sql.close();    
             });

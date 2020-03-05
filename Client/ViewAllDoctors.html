@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Doctors</h1>
+    <div class="doctors">
+        <ul id="ul"></ul>
+    </div>
+
+    <script>
+        
+           async function getDoctors() {
+            try {
+                const ul = document.getElementById("ul")
+                const doctors = await fetch("http://localhost:3000/viewDoctors", { method: "GET" })
+                // const list = await doctors.json()
+                console.log(doctors)
+                // doctors.forEach(element => {
+                //     console.log(element)
+                //     const li = document.createElement("li")
+                //     li.textContent = element.name + " - " + element.musian_id
+                //     ul.appendChild(li)
+                // });
+            } catch (e) {
+                console.log('I failed...'+e)
+
+            }
+        }
+        getDoctors()
+    </script>
+</body>
+</html>
