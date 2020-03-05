@@ -3,7 +3,13 @@ var crypto = require('crypto');
 const sql = require("mssql/msnodesqlv8");
 const path = require('path');
 const bodyParser = require('body-parser');
+// var session = require('express-session');
 
+// router.use(session({
+// 	secret: 'secret',
+// 	resave: true,
+// 	saveUninitialized: true
+// }));
 router.use(bodyParser.urlencoded({extended : true}));
 router.use(bodyParser.json());
 
@@ -44,6 +50,8 @@ router.post('/' ,function(request, response){
                 else{
                     console.log("found patient");
                     response.send("successfuly logged patient in");
+                    // request.session.loggedin = true;
+				    // request.session.Email = Email;
                 }
                 sql.close();    
             });

@@ -3,6 +3,7 @@ const sql = require("mssql/msnodesqlv8");
 var router = require('express').Router();
 const path = require('path');
 const bodyParser = require('body-parser');
+var session = require('express-session');
 
 router.use(bodyParser.urlencoded({extended : true}));
 router.use(bodyParser.json());
@@ -14,6 +15,13 @@ const dbConfig = {
 
 router.get('/', function(req, res) {
     res.sendFile(path.join(__dirname , '../Client/Register.html'));
+    // if (req.session.loggedin) {
+    //   res.send('Welcome back, ' + req.session.Email + '!');
+    // } else {
+    //   res.send('Please login to view this page!');
+    // }
+    // res.end();
+    
 });
 router.post("/", async (req, res) => {
     var Password = req.body.Password;
