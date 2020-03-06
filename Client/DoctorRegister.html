@@ -3,28 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/Style/style.css">
+    <link rel="stylesheet" type="text/css" href="css/DoctorRegister.css">
     <title>BOOK_ME</title>
 </head>
 <body>
-    <header>
-        <h1>BOOK ME</h1>
-        <nav>
+        <nav class="banner-text">
             <ul>
-                <li><a href="index.html">Home</a></li>
                 <li><a href="About.html">About</a></li>
-                <li><a href="Login.html">Login</a></li>
-                <li><a href="Register.html">Register</a></li>
               </ul>
         </nav>
-    </header>
-    <div>
-        <form id="RegisterForm" action="" method="POST">
-            <div class="msg"></div>
-
-            <p>Please select role:</p>
-          
-
+        <img src="/Images/BOOKME.png" alt="website logo">
+        <nav class="login-page">
+            <nav class="form">
+                <form id="register-form" method="POST">
+            <nav class="msg"></nav>
             <label for="FullName">FullName:</label>
             <input type="text" id="FullName" name="FullName" placeholder="FullName" required><br>
 
@@ -47,8 +39,10 @@
             <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="ConfirmPassword" required><br>
 
             <button type="submit" id="Register">Register</button>
+            <p class="message">Already Registered? <a href="Login.html">Login</a></p>
         </form>
-    </div>
+    </nav>
+    </nav>
     <script src="/Server/Register.js"></script>
 </body>
 </html>

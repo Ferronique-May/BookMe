@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/Style/style.css">
+    <link rel="stylesheet" type="text/css" href="css/Appointment.css">
     <title>BOOK_ME</title>
 </head>
 <body>
     <!-- User Page for Booking appointment After Loging in -->
-    <header>
-        <h1>BOOK ME</h1>
-        <nav>
+    <img src="/Images/BOOKME.png" alt="website logo">
+        <nav class="banner-text">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="About.html">About</a></li>
                 <li><a href="Logout.html">Logout</a></li>
               </ul>
         </nav>
-    </header>
-    <section>
-        <h3>Make You Appointment </h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi facere, soluta magnam consectetur molestias itaque
-        ad sint fugit architecto incidunt iste culpa perspiciatis possimus voluptates aliquid consequuntur cumque quasi.
-        Perspiciatis.</p>
-        <form>
+        <nav class="login-page">
+            <nav class="form">
+                <form id="register-form" method="POST">
+            <p>Make You Appointment </p>
             <label for="Description">Description</label><br>
                 <textarea id="Description" type="text" placeholder="Short Description of You illness"></textarea><br>
             <label for="Booking">Book Appointment date</label>
@@ -40,9 +36,9 @@
                     <option value="Nephrologists">Nephrologists</option>
                     <option value="Urologists">Urologists</option>
                 </select><br>
-            <label for="AppointmentFor">AppointmentFor</label>
+            <label for="AppointmentFor">Appointment For</label>
                 <select class="form-control">
-                    <option value="Adult">Adult</option>
+                    <option value="Adult">Adult</option><br/>
                     <option value="Child">Child</option>
                 </select><br>                                
             <button type="submit">Book</button><br>
@@ -50,6 +46,8 @@
                 <input id="ViewBooking" type="date" value="ViewBooking"><br>
                 <button type="submit">View</button>
         </form>
+        </nav>
+        </nav>
 </section>
 </body>
 </html>

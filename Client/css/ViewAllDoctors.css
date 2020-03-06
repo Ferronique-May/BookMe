@@ -1,0 +1,20 @@
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)),url(/Images/future.jpg);
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner-text ul {
+    height: 50px;
+    float: right;
+}
+
+.banner-text ul li {
+    display: inline-block;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 20px;
+    background:rgba(209, 213, 226, 0.8);
+}

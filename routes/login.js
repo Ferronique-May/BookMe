@@ -6,6 +6,10 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({extended : true}));
 router.use(bodyParser.json());
 
+function encodeHTML(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}
+
 const dbConfig = {
   driver: 'msnodesqlv8',
   connectionString: 'Driver={SQL Server Native Client 11.0};Server={localhost\\SQLExpress};Database={BookMeDB};Trusted_Connection={yes};'
@@ -16,9 +20,9 @@ router.get('/', function(req, res) {
 });
 
 router.post('/' ,function(request, response){
-    const Email = request.body.Email;
-    const Password = request.body.Password;
-    const Role = request.body.optradio;
+    const Email = encodeHTML(request.body.Email);
+    const Password = encodeHTML(request.body.Password);
+    const Role = encodeHTML(request.body.optradio);
    
     if (Email && Password && Role){
         sql.connect(dbConfig, function(err){
