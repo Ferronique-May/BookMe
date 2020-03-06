@@ -12,20 +12,16 @@ const dbConfig = {
   }
 
 router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname , '../Client/AppointmentDate.html'));
+    res.sendFile(path.join(__dirname , '../Client/Cancel.html'));
 });
 
 router.post("/", async (req, res) => {
   let data = {};
   try {
     const requested = req.body;
-    console.log(requested.datetime)
-      await InsertUpdateDeleteAppointment('INSERT',
-    requested.datetime,
-    requested.Description,
-    requested.PatientID,
-    requested.DoctorID
-  
+    console.log(requested.AppointmentID)
+      await InsertUpdateDeleteAppointment(
+    requested.AppointmentID
     )
     
     data.success = true;
@@ -33,27 +29,24 @@ router.post("/", async (req, res) => {
     data.success = false;
   } finally {
     res.setHeader("content-type", "application/json");
-    res.redirect("/viewAppointment");
+    res.send("Thank you for booking")
+    //res.redirect("/");
   }
 });
 
-function InsertUpdateDeleteAppointment(statementType,bookDate,description,patientID,doctorID){
+function InsertUpdateDeleteAppointment(appointmentID){
   const connection = new sql.ConnectionPool(dbConfig);
   const request = new sql.Request(connection);
-  request.input('StatemetTypes', sql.VarChar, statementType);
-  request.input('DoctorID', sql.VarChar, doctorID);
-  request.input('PatientID', sql.VarChar, patientID); 
-  request.input('BookDate', sql.DateTime, bookDate);      
-  request.input('Description', sql.VarChar,description);       
+  request.input('AppointmentID', sql.Int, appointmentID);        
   connection.connect(function(err){
 
       if(err){
           console.log(err)
           return    
       }
-      request.query("EXEC SP_InsertUpdateDeleteAppointment @StatementType=@StatemetTypes,@appointmentDateTime=@BookDate,@appointmentDescription=@Description,@PatientIDforPatientAppointments=@PatientID,@DoctorIDforPatientAppointments=@DoctorID",function(err,data){
+      request.query("EXEC SP_InsertUpdateDeleteAppointment @StatementType = 'DELETE', @appointmentID = @AppointmentID",function(err,data){
           if(err){
-              console.log('FAIL......')
+              console.log('FAIL......'+err)
           }else{
               console.log("Successful")
           } 
@@ -61,5 +54,4 @@ function InsertUpdateDeleteAppointment(statementType,bookDate,description,patien
       })
  })
 }
-
 module.exports = router;

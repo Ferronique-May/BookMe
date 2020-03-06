@@ -10,35 +10,22 @@
         <table id="table">
             <thead>
                 <tr>
-                    <th>Doctor's Name</th>
-                    <th>Doctor's Specialisation</th>
-                    <th>Doctor's Email</th>
-                    <th>Doctor's Phone Number</th>
+                    <th>Patient's Name</th>
+                    <th>Patient's Email</th>
+                    <th>Patient's Phone Number</th>
+                    <th>Appointment Date</th>
+                    
                 </tr>
             </thead>
         </table>
     </div>
-<div>
-    <button id="Book">Book</button>
-    <button id="Update">Update</button>
-    <button id="Cancel">Cancel</button>
-</div>
     <script>
-         document.getElementById("Book").onclick = function () {
-            location.href = "appointment";
-        };
+      
         
-        document.getElementById("Update").onclick = function () {
-            location.href = "update";
-        };
-        document.getElementById("Cancel").onclick = function () {
-            location.href = "cancel";
-        };
-        
-           async function getDoctors() {
+           async function getAppointments() {
             try {
                 const tablebody = document.querySelector('#table');
-                const doctors = await fetch("http://localhost:3000/doctors", { method: "GET" })
+                const doctors = await fetch("http://localhost:3000/thankyou", { method: "GET" })
                 const list = await doctors.json()
                 list.forEach(element => {
                     const tr = document.createElement('tr');
@@ -58,7 +45,7 @@
 
             }
         }
-        getDoctors()
+        getAppointments()
     </script>
 </body>
 </html>

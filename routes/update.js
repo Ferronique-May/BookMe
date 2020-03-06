@@ -12,20 +12,18 @@ const dbConfig = {
   }
 
 router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname , '../Client/AppointmentDate.html'));
+    res.sendFile(path.join(__dirname , '../Client/Update.html'));
 });
 
 router.post("/", async (req, res) => {
   let data = {};
   try {
     const requested = req.body;
-    console.log(requested.datetime)
-      await InsertUpdateDeleteAppointment('INSERT',
+    console.log(requested.AppointmentID)
+      await InsertUpdateDeleteAppointment(
     requested.datetime,
     requested.Description,
-    requested.PatientID,
-    requested.DoctorID
-  
+    requested.AppointmentID
     )
     
     data.success = true;
@@ -37,12 +35,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-function InsertUpdateDeleteAppointment(statementType,bookDate,description,patientID,doctorID){
+function InsertUpdateDeleteAppointment(bookDate,description,appointmentID){
   const connection = new sql.ConnectionPool(dbConfig);
   const request = new sql.Request(connection);
-  request.input('StatemetTypes', sql.VarChar, statementType);
-  request.input('DoctorID', sql.VarChar, doctorID);
-  request.input('PatientID', sql.VarChar, patientID); 
+  request.input('AppointmentID', sql.Int, appointmentID); 
   request.input('BookDate', sql.DateTime, bookDate);      
   request.input('Description', sql.VarChar,description);       
   connection.connect(function(err){
@@ -51,7 +47,7 @@ function InsertUpdateDeleteAppointment(statementType,bookDate,description,patien
           console.log(err)
           return    
       }
-      request.query("EXEC SP_InsertUpdateDeleteAppointment @StatementType=@StatemetTypes,@appointmentDateTime=@BookDate,@appointmentDescription=@Description,@PatientIDforPatientAppointments=@PatientID,@DoctorIDforPatientAppointments=@DoctorID",function(err,data){
+      request.query("UPDATE Appointments SET AppointmentDateTime =@BookDate, AppointmentDescription = @Description WHERE AppointmentID = @AppointmentID",function(err,data){
           if(err){
               console.log('FAIL......')
           }else{
@@ -61,5 +57,4 @@ function InsertUpdateDeleteAppointment(statementType,bookDate,description,patien
       })
  })
 }
-
 module.exports = router;
