@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
                 console.log(err)
                 return    
             }
-            request.query("SELECT * FROM VIEW_AllDoctorsSpecialization",function(err,data){
+            request.query("SELECT * FROM VIEW_AllPatientAppointments WHERE PatientEmail = 'concy.jimani@gmail.com'",function(err,data){
                 if(err){
                     console.log('FAIL......')
                 }

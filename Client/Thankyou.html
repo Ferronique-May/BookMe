@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="doctors">
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Patient's Name</th>
+                    <th>Patient's Email</th>
+                    <th>Patient's Phone Number</th>
+                    <th>Appointment Date</th>
+                    
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <script>
+      
+        
+           async function getAppointments() {
+            try {
+                const tablebody = document.querySelector('#table');
+                const doctors = await fetch("http://localhost:3000/thankyou", { method: "GET" })
+                const list = await doctors.json()
+                list.forEach(element => {
+                    const tr = document.createElement('tr');
+                    const cell = Object.values(element)
+                    cell.forEach(e=>{
+                        
+                        const td = document.createElement('td');
+                        td.textContent = e
+                        
+                        tr.appendChild(td)
+                       
+                    })
+                   tablebody.appendChild(tr)
+                });
+            } catch (e) {
+                console.log('I failed...'+e)
+
+            }
+        }
+        getAppointments()
+    </script>
+</body>
+</html>

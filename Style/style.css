@@ -1,7 +1,9 @@
-body{
+/* body{
     background: white;
     margin: 0;
-    background-image: url(/Images/blue.jpg) no-repeat;
+    background-image: url(/Images/blue.jpg);
+    background-position: center;
+    background-size: cover;
     font-family: Arial, Helvetica, sans-serif;
 }
 header {
@@ -9,7 +11,7 @@ header {
 }
 nav {
     background: lightblue;
-    padding: 5px;
+    padding: 2% 2%;
     text-align: center;
 }
 ul {
@@ -20,9 +22,9 @@ li a {
     float: left;
     color: black;
     text-align: center;
-    padding: 14px 16px;
+    padding: 2% 2%;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 100%;
 }
 li a:hover{
     background-color: #ddd;
@@ -35,106 +37,18 @@ li a:active{
 footer{
     background: lightblue;
     text-align: center;
-    margin-top: 20%;
+    margin-top: 12%;
 }
 #view {
-    width: 100%;
-    height: -30%;
+    width: 10%;
+    height: -5%;
 }
 form{
-    margin: 20px;
+    margin: 125%;
     color:black;   
 }
 
 form p{
-    font-size: 18px;
+    font-size: 5%;
     letter-spacing: 0.1em;
-}
-
-input[type="radio"]{
-    opacity: 0;
-    width: 0;
-    margin: 0;
-    background-color: black;
-}
-
-label[for="Doctor"], label[for="Patient"]{
-    margin-bottom: 10px;
-    display: inline-block;
-    padding-left: 26px;
-    background: url(img/checks.png) no-repeat;
-    background-position: 0 -33px;
-    cursor: pointer;
-}
-
-input:checked + label[for="Doctor"], 
-input:checked + label[for="Patient"]{
-    color: red;
-    background-position: 0 0px;
-}
-
-/* 3 - CHECKBOX STYLES  */
-input[type="checkbox"]{
-    opacity: 0;
-    width: 0;
-    margin: 0;
-}
-
-label[for="web"], label[for="photoshop"], label[for="madona"]{
-    margin-bottom: 10px;
-    display: inline-block;
-    padding-left: 26px;
-    background: url(img/checks.png) no-repeat;
-    background-position: 0 -100px;
-    cursor: pointer;
-}
-
-input:checked + label[for="web"],
-input:checked + label[for="photoshop"],
-input:checked + label[for="madona"]{
-    color: royalblue;
-    background-position: 0 -68
-    ;
-}
-
-/* 4 - TEXT INPUT STYLES & FIELDSETS */
-fieldset{
-    padding: 10px;
-    font-size: 18px;
-    border: 3px solid grey;
-}
-
-input[type="email"],
-input[type="telephone"]{
-    display: block;
-    margin-bottom: 20px;
-    padding: 10px 10px 10px 50px;
-    border: 0;
-    border-radius: 5px;
-    background: url(img/inputs.png) no-repeat;
-    background-color: #222;
-    font-size: 16px;
-    color: #fff;
-}
-
-input[type="email"]{
-background-position: 7px 8px;
-}
-input[type="telephone"]{
-    background-position: 7px -58px;
-}
-
-/* 5 - SELECT BOXES */
-
-select{
-    -webkit-appearance: none;
-    appearance: none;
-
-    display: block;
-    margin: 30px 0;
-    padding: 10px 50px 10px 10px;
-    background: url(img/select.png) no-repeat 95% center;
-    color: #fff;
-    border-radius: 5px;
-    width: 280px;
-}
+} */

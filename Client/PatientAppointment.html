@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/Style/style.css">
+    <title>BOOK_ME</title>
+</head>
+<body>
+    <!-- Patient Page for Viewing appointment After Loging in -->
+    <header>
+        <h1>BOOK ME</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="Logout.html">Logout</a></li>
+              </ul>
+        </nav>
+    </header>
+    <section>
+        <h3>Your Appointments</h3>
+        <table id="Patient">
+            <tr>
+                <th>Patient Name</th>
+                <th>Appointment Date</th>
+                <th>Decription</th>
+                <th>Phonenumber</th>
+            </tr>
+            <tr>
+                <td>Mrs Parker</td>
+                <td>2020-03-15</td>
+                <td>Just Crazy</td>
+                <td>078 154 8432</td>
+            </tr>
+            <tr>
+                <td>Mrs Parker</td>
+                <td>2020-03-15</td>
+                <td>Just Crazy</td>
+                <td>078 154 8432</td>
+            </tr>
+            <tr>
+                <td>Mrs Parker</td>
+                <td>2020-03-15</td>
+                <td>Just Crazy</td>
+                <td>078 154 8432</td>
+            </tr>
+        </table>
+        <button type="button" onclick="myFunction()">View Appointment</button>
+</section>
+<script>
+    function myFunction() {
+      var table = document.getElementById("Patient");
+      for(let i = 0; i < 10; i++){
+        var row = table.insertRow(i);
+            for(let j = 0; j < 4;j++){
+                var cell1 = row.insertCell(j);
+                cell1.innerHTML = "NEW CELL1";
+            }
+      }
+    }
+    </script>
+</body>
+</html>
