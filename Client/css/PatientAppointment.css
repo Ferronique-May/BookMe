@@ -1,0 +1,56 @@
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)),url(/Images/clouds.jfif);
+    height: 115vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.table {
+    border-collapse: collapse;
+  }
+  
+  table, th, td {
+    border: 1px solid black;
+    text-align: center;
+  }
+
+
+  .table-box {
+      text-align: center;
+  }
+
+  .box {
+    width : 45%;
+    height : auto;
+    overflow : auto ;
+    position : absolute;
+    border-top : none;
+    text-align : left;
+    top:50%;
+    left:45%;
+    margin-top: -869%;
+    margin-left: -2050%;
+  }
+
+  .table-align {
+      margin: 0 0 0 250px;
+  }
+
+  .banner-text {
+    width: 100%;
+    position: absolute;
+}
+
+.banner-text ul {
+    height: 50px;
+    float: right;
+}
+
+.banner-text ul li {
+    display: inline-block;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 20px;
+    background:rgba(209, 213, 226, 0.8);
+}

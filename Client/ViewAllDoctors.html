@@ -8,7 +8,6 @@
     <title>BOOK_ME</title>
 </head>
 <body>
-<<<<<<< HEAD
     <img src="/Images/BOOKME.png" alt="website logo">
     <nav class="banner-text">
         <ul>
@@ -16,55 +15,20 @@
             <li><a href="DoctorAppointment.html">SCHEDULE APPOINTMENT</a></li>
           </ul>
     </nav>
-=======
-    <div class="doctors">
-        <table id="table">
-            <thead>
-                <tr>
-                    <th>Doctor's Name</th>
-                    <th>Doctor's Specialisation</th>
-                    <th>Doctor's Email</th>
-                    <th>Doctor's Phone Number</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-<div>
-    <button id="Book">Book</button>
-    <button id="Update">Update</button>
-    <button id="Cancel">Cancel</button>
-</div>
->>>>>>> b9e6570a0d8915511afd7540dc2d0b8461575527
     <script>
-         document.getElementById("Book").onclick = function () {
-            location.href = "appointment";
-        };
-        
-        document.getElementById("Update").onclick = function () {
-            location.href = "update";
-        };
-        document.getElementById("Cancel").onclick = function () {
-            location.href = "cancel";
-        };
         
            async function getDoctors() {
             try {
-                const tablebody = document.querySelector('#table');
-                const doctors = await fetch("http://localhost:3000/doctors", { method: "GET" })
-                const list = await doctors.json()
-                list.forEach(element => {
-                    const tr = document.createElement('tr');
-                    const cell = Object.values(element)
-                    cell.forEach(e=>{
-                        
-                        const td = document.createElement('td');
-                        td.textContent = e
-                        
-                        tr.appendChild(td)
-                       
-                    })
-                   tablebody.appendChild(tr)
-                });
+                const ul = document.getElementById("ul")
+                const doctors = await fetch("http://localhost:3000/viewDoctors", { method: "GET" })
+                // const list = await doctors.json()
+                console.log(doctors)
+                // doctors.forEach(element => {
+                //     console.log(element)
+                //     const li = document.createElement("li")
+                //     li.textContent = element.name + " - " + element.musian_id
+                //     ul.appendChild(li)
+                // });
             } catch (e) {
                 console.log('I failed...'+e)
 

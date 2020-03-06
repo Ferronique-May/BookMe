@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/Style/style.css">
+    <link rel="stylesheet" type="text/css" href="css/PatientAppointment.css">
     <title>BOOK_ME</title>
 </head>
 <body>
     <!-- Patient Page for Viewing appointment After Loging in -->
     <header>
-        <h1>BOOK ME</h1>
-        <nav>
+        <nav class="banner-text">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="About.html">About</a></li>
                 <li><a href="Logout.html">Logout</a></li>
               </ul>
-        </nav>
+        </nav><img src="/Images/BOOKME.png" alt="website logo">
     </header>
-    <section>
-        <h3>Your Appointments</h3>
-        <table id="Patient">
+
+<nav class="box">
+    <nav class="table-align">
+        <nav class="table-box">
+        <p>Your Appointments</p>
+        <table class="table">
             <tr>
                 <th>Patient Name</th>
                 <th>Appointment Date</th>
@@ -45,9 +47,11 @@
                 <td>Just Crazy</td>
                 <td>078 154 8432</td>
             </tr>
-        </table>
-        <button type="button" onclick="myFunction()">View Appointment</button>
-</section>
+        </table><br/><br/>
+        <button type="button" onclick="myFunction()">View Appointment</button><br/><br/>
+        </nav>
+        </nav>
+</nav>
 <script>
     function myFunction() {
       var table = document.getElementById("Patient");
