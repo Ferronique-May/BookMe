@@ -39,6 +39,8 @@ router.post("/", async (req, res) => {
   });
 
   function InsertUpdateDeleteDoctor(statementType,DoctorID,fullname,specialisation,email,phonenumber,password){
+
+    //sanitize input
     const connection = new sql.ConnectionPool(dbConfig);
     const request = new sql.Request(connection);
     request.input('StatemetType', sql.VarChar, statementType);

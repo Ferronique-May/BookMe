@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var expressValidator = require('express-validator')
+var expressSession = require('express-session')
 
 app.use('/', require('../routes/login'));
 app.use('/register', require('../routes/register'))

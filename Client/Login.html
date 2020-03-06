@@ -3,39 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/Style/style.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
     <title>BOOK_ME</title>
 </head>
 <body>
-    <header>
-        <h1>BOOK ME</h1>
-        <nav>
+        <nav class="banner-text">
             <ul>
-                <li><a href="index.html">Home</a></li>
                 <li><a href="About.html">About</a></li>
-                <li><a href="Login.html">Login</a></li>
-                <li><a href="Register.html">Register</a></li>
               </ul>
         </nav>
-    </header>
-    <div>
-        <form id="LoginForm" action="" method="POST">
-            <p>Please select role:</p>
-            
-            <div class="form-group" id="role">
-                <label class="radio-inline"><input type="radio" name="optradio" value="1">Doctor</label>
-                <label class="radio-inline"><input type="radio" name="optradio" value="0">Patient</label>
-            </div>
-            
-            <label for="Email">Email:</label>
-            <input type="email" id="Email" name="Email" placeholder="Email"><br>
-            
-            <label for="Password">Password:</label>
-            <input type="password" id="Password" name="Password"placeholder="Password" ><br>
-            
-            <button type="submit" id="Login">Login</button>
-        </form>
-    </div>
+        <img src="/Images/BOOKME.png" alt="website logo">
+    <nav class="login-page">
+        <nav class="form">
+            <form id="register-form" method="POST">
+                <p>Please select role:</p>               
+                <nav class="form-group" id="role">
+                    <label class="radio-inline"><input type="radio" name="optradio" value="1">Doctor</label>
+                    <label class="radio-inline"><input type="radio" name="optradio" value="0">Patient</label>
+                </nav><br/>
+                
+                <label for="Email">Email:</label>
+                <input type="email" id="Email" name="Email" placeholder="Email"><br>
+                
+                <label for="Password">Password:</label>
+                <input type="password" id="Password" name="Password"placeholder="Password" ><br>
+                
+                <button type="submit" id="Login">Login</button>
+                <p class="message">Not yet Registered? <a href="index.html">Register</a></p>
+            </form>
+        </nav>
+    </nav>
     <script src="/Server/Login.js"></script>
 </body>
 </html>

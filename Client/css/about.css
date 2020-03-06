@@ -1,0 +1,39 @@
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)),url(/Images/booook.jpg);
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner-text ul {
+    height: 50px;
+    float: right;
+}
+
+.banner-text ul li {
+    display: inline-block;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 20px;
+    background:rgba(209, 213, 226, 0.8);
+}
+
+.banner-text ul li:hover,.banner-text ul li:active {
+    background: rgb(223, 111, 111);
+}
+
+.box {
+    width : 45%;
+    height : auto;
+    overflow : auto ;
+    border : 1px solid #C5C5C5;
+    background: rgba(209, 213, 226, 0.8);
+    position : absolute;
+    border-top : none;
+    text-align : left;
+    top:50%;
+    left:45%;
+    margin-top: -139px;
+      margin-left: -328px;
+  }

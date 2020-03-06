@@ -1,0 +1,91 @@
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)),url(/Images/doctor.jpg);
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.login-page {
+    width: 360px;
+    padding: 10% 0 0;
+    margin: auto;
+}
+
+.banner-text .app-name {
+    font-family:"Times New Roman" sans-serif;
+    text-align: center;
+    background-color: #f2f2f2;
+}
+
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: rgba(209, 213, 226, 0.8);
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 45px;
+    text-align: center;
+    margin-top: -52px;
+}
+
+.banner-text {
+    width: 100%;
+    position: absolute;
+}
+
+.banner-text ul {
+    height: 50px;
+    float: right;
+}
+
+.banner-text ul li {
+    display: inline-block;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 20px;
+    background:rgba(209, 213, 226, 0.8);
+}
+
+
+.banner-text ul li:hover,.banner-text ul li:active {
+    background: grey;
+}
+
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 1;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+}
+
+.form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 100%;
+    border: 0;
+    padding: 15PX;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.form button:hover,.form button:active {
+    background: #43A047;
+}
+
+.form .message {
+    margin: 15px 0 0;
+    color: black;
+    font-size: 12px;
+}
+
+.form .message a {
+    color: rgb(28, 117, 31);
+    text-decoration: none;
+}
